@@ -24,21 +24,19 @@
 
 html[dir="rtl"] { font-family: 'DM Sans', 'Segoe UI', sans-serif; }
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { height: 100%; }
+html, body { height: 100%; }
 body {
   font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
   background: #000;
   color: var(--text);
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  margin: 0;
+  overflow: hidden; /* Page level scroll disable, only inner areas scroll */
   -webkit-font-smoothing: antialiased;
 }
 
 .app-shell {
-  width: 1024px;
-  height: 1366px;
+  width: 100vw;
+  height: 100vh;
   background: var(--bg);
   display: flex;
   flex-direction: column;
@@ -652,7 +650,7 @@ canvas { max-height: 220px; }
 /* === CONFIRMATION TOAST === */
 .toast-container {
   position: fixed;
-  bottom: 100px;
+  bottom: clamp(16px, 8vh, 80px);
   left: 50%;
   transform: translateX(-50%);
   z-index: 999;
@@ -660,6 +658,7 @@ canvas { max-height: 220px; }
   flex-direction: column;
   gap: 8px;
   pointer-events: none;
+  max-width: min(480px, 100vw - 32px);
 }
 .toast {
   background: var(--surface);
@@ -674,7 +673,8 @@ canvas { max-height: 220px; }
   color: var(--text);
   box-shadow: 0 8px 32px rgba(0,0,0,0.4);
   animation: toastIn 0.4s ease forwards;
-  white-space: nowrap;
+  white-space: normal;
+  word-break: break-word;
 }
 .toast.success { border-color: rgba(76,175,125,0.3); }
 .toast.success i { color: var(--green); }
