@@ -267,15 +267,6 @@ function renderFinanceResponse() {
 
   const terminated = (DATA && DATA.financial && DATA.financial.terminated) ? DATA.financial.terminated : [];
 
-  // If a previous finance chart exists, remove its whole message-row so we don't have duplicate IDs
-  const existingFinanceCanvas = document.getElementById('financeChart');
-  if (existingFinanceCanvas) {
-    const existingRow = existingFinanceCanvas.closest('.message-row');
-    if (existingRow && existingRow.parentElement === area) {
-      area.removeChild(existingRow);
-    }
-  }
-
   const chartRow = document.createElement('div');
   chartRow.className = 'message-row ai';
   chartRow.innerHTML = `
@@ -287,7 +278,7 @@ function renderFinanceResponse() {
           <div class="chart-badge badge-red">${isArabic?'مغادرون':'Terminated'}</div>
         </div>
         <div class="chart-body">
-          <canvas id="financeChart" height="160"></canvas>
+          <canvas class="finance-chart" height="160"></canvas>
         </div>
       </div>
       <div class="msg-time">${getCurrentTime()}</div>
@@ -346,13 +337,9 @@ function renderFinanceResponse() {
   scrollToBottom();
 
   setTimeout(() => {
-    const ctx = document.getElementById('financeChart');
-    if (ctx) {
-      // Destroy previous chart instance if it exists (prevents "canvas already in use" issues)
-      if (window.financeChartInstance) {
-        window.financeChartInstance.destroy();
-      }
-      window.financeChartInstance = new Chart(ctx, {
+    const canvas = chartRow.querySelector('canvas.finance-chart');
+    if (canvas) {
+      new Chart(canvas, {
         type: 'bar',
         data: {
           labels: terminated.map(i => i.name.split(' ')[0]),
@@ -488,7 +475,7 @@ function renderEthicsResponse() {
           <div class="chart-badge badge-red">${isArabic?'المشبوهون فقط':'Flagged Only'}</div>
         </div>
         <div class="chart-body">
-          <canvas id="ethicsChart" height="160"></canvas>
+          <canvas class="ethics-chart" height="160"></canvas>
         </div>
       </div>
       <div class="msg-time">${getCurrentTime()}</div>
@@ -497,12 +484,9 @@ function renderEthicsResponse() {
   scrollToBottom();
 
   setTimeout(() => {
-    const ctx = document.getElementById('ethicsChart');
-    if (ctx) {
-      if (window.ethicsChartInstance) {
-        window.ethicsChartInstance.destroy();
-      }
-      window.ethicsChartInstance = new Chart(ctx, {
+    const canvas = chartRow.querySelector('canvas.ethics-chart');
+    if (canvas) {
+      new Chart(canvas, {
         type: 'bar',
         data: {
           labels: ['David Omondi', 'Samir Khalil', 'Yusuf Abdi', 'Mohammed Iqbal', 'Nadia Cherif'],
@@ -623,7 +607,7 @@ function renderInnovationResponse() {
       <div class="chart-title">${isArabic?'التكلفة لكل طالب':'Cost per Student (QAR)'}</div>
       <div class="chart-badge badge-green">-750 QAR</div>
     </div>
-    <div class="chart-body"><canvas id="innovChart" height="140"></canvas></div>
+    <div class="chart-body"><canvas class="innov-chart" height="140"></canvas></div>
   </div>`;
 
   tableHtml += `<div class="msg-bubble" style="margin-top:8px;background:rgba(76,175,125,0.08);border:1px solid rgba(76,175,125,0.2)">
@@ -652,9 +636,9 @@ function renderInnovationResponse() {
   scrollToBottom();
 
   setTimeout(() => {
-    const ctx = document.getElementById('innovChart');
-    if (ctx) {
-      new Chart(ctx, {
+    const canvas = tableRow.querySelector('canvas.innov-chart');
+    if (canvas) {
+      new Chart(canvas, {
         type: 'bar',
         data: {
           labels: [isArabic ? 'تقليدي' : 'Traditional', isArabic ? 'ذكي' : 'Autonomous'],
@@ -700,7 +684,7 @@ function renderInnovationResponse() {
             <div class="chart-title">${isArabic ? 'رضا الطلاب حسب نوع السيارة' : 'Student Satisfaction by Vehicle Type'}</div>
             <div class="chart-badge badge-green">1–5</div>
           </div>
-          <div class="chart-body"><canvas id="satisfactionChart" height="140"></canvas></div>
+          <div class="chart-body"><canvas class="satisfaction-chart" height="140"></canvas></div>
         </div>
         <div class="msg-time">${getCurrentTime()}</div>
       </div>`;
@@ -708,9 +692,9 @@ function renderInnovationResponse() {
     scrollToBottom();
 
     setTimeout(() => {
-      const sctx = document.getElementById('satisfactionChart');
-      if (sctx) {
-        new Chart(sctx, {
+      const canvas = extraRow.querySelector('canvas.satisfaction-chart');
+      if (canvas) {
+        new Chart(canvas, {
           type: 'bar',
           data: {
             labels: [isArabic ? 'تقليدي' : 'Traditional', isArabic ? 'ذكي' : 'Autonomous'],
