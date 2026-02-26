@@ -27,13 +27,22 @@ html[dir="rtl"] { font-family: 'DM Sans', 'Segoe UI', sans-serif; }
 html { height: 100%; }
 body {
   font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-  background: var(--bg);
+  background: #000;
   color: var(--text);
-  height: 100vh;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  -webkit-font-smoothing: antialiased;
+}
+
+.app-shell {
+  width: 1024px;
+  height: 1366px;
+  background: var(--bg);
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  -webkit-font-smoothing: antialiased;
 }
 
 /* === HEADER === */
