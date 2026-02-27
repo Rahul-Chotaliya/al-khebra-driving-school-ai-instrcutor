@@ -21,8 +21,8 @@ const LANG = {
     kpi1: 'Financial Bleed',
     kpi2: 'Ethics Alerts',
     kpi3: 'AV Savings',
-    logoName: 'Al Khebra',
-    logoSub: 'Driving Academy'
+    logoName: 'NexSolve LLC',
+    logoSub: 'Accelerate Change'
   },
   ar: window.ARABIC_LANG || {
     greetingMorning: 'صباح الخير، سعادة الرئيس',
@@ -41,24 +41,15 @@ const LANG = {
     kpi1: 'النزيف المالي',
     kpi2: 'تنبيهات أخلاقية',
     kpi3: 'وفورات السيارة الذكية',
-    logoName: 'الخبرة',
-    logoSub: 'أكاديمية القيادة'
+    logoName: 'NexSolve LLC',
+    logoSub: 'تسريع التغيير'
   }
 };
 
-function getGreeting() {
-  const h = new Date().getHours();
-  const L = isArabic ? LANG.ar : LANG.en;
-  if (h < 12) return L.greetingMorning;
-  if (h < 17) return L.greetingAfternoon;
-  return L.greetingEvening;
-}
-
-function toggleLang() {
+function applyLanguage(langCode) {
   // Temporarily disabled per requirement – Arabic UI switch is turned off
-  return;
-
-  isArabic = !isArabic;
+  // return;
+  isArabic = (langCode === 'ar');
   const L = isArabic ? LANG.ar : LANG.en;
   document.documentElement.setAttribute('dir', isArabic ? 'rtl' : 'ltr');
   document.documentElement.setAttribute('lang', isArabic ? 'ar' : 'en');
@@ -78,7 +69,6 @@ function toggleLang() {
   document.getElementById('kpi3Label').textContent = L.kpi3;
   document.getElementById('welcomeGreeting').textContent = getGreeting();
   document.getElementById('welcomeSub').innerHTML = L.welcomeSub;
-  // update QA labels
   if (!isArabic) {
     document.getElementById('qFinanceLabel').innerHTML = 'Show me which instructors are costing us money by leaving too early<span>Financial Bleed Analysis</span>';
     document.getElementById('qEthicsLabel').innerHTML = 'Are there any instructors violating our Islamic values?<span>Ethical Risk Detection</span>';
@@ -88,6 +78,25 @@ function toggleLang() {
     document.getElementById('qEthicsLabel').innerHTML = 'هل هناك مدربون ينتهكون قيمنا الإسلامية؟<span>اكتشاف المخاطر الأخلاقية</span>';
     document.getElementById('qInnoLabel').innerHTML = 'هل سيارة التعليم الذاتي تحقق قيمة حقيقية؟<span>عائد الاستثمار</span>';
   }
+}
+
+function getGreeting() {
+  const h = new Date().getHours();
+  const L = isArabic ? LANG.ar : LANG.en;
+  if (h < 12) return L.greetingMorning;
+  if (h < 17) return L.greetingAfternoon;
+  return L.greetingEvening;
+}
+
+function toggleLang() {
+  // Header toggle still available if needed
+  applyLanguage(isArabic ? 'en' : 'ar');
+}
+
+function chooseLanguage(langCode) {
+  applyLanguage(langCode === 'ar' ? 'ar' : 'en');
+  const overlay = document.getElementById('languageOverlay');
+  if (overlay) overlay.style.display = 'none';
 }
 
 // ========== CHAT ENGINE ==========
