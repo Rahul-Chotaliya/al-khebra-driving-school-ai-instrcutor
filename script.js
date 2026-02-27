@@ -48,7 +48,7 @@ const LANG = {
 
 function applyLanguage(langCode) {
   // Temporarily disabled per requirement – Arabic UI switch is turned off
-  // return;
+  return;
   isArabic = (langCode === 'ar');
   const L = isArabic ? LANG.ar : LANG.en;
   document.documentElement.setAttribute('dir', isArabic ? 'rtl' : 'ltr');
